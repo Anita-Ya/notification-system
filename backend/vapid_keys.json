@@ -1,0 +1,5 @@
+{
+  "public_key": "BHdAAIAINzOfd-kVAT1Wui64YjFBwK-QqqGKTp2YJ-5cjGg6sCmvOAqjS7Q-kHYvUyHCV-zQJdXDaG-Ll8mdbhU",
+  "private_key_pem": "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIAuvs4Xssuuf1RWa+ddklwtxLtZ8Bxl8MS50V/LjW7Y+oAoGCCqGSM49\nAwEHoUQDQgAEd0AAgAg3M5936RUBPVa6LrhiMUHAr5CqoYpOnZgn7lyMaDqwKa84\nCqNLtD6Qdi9TIcJX7NAl1cNob4uXyZ1uFQ==\n-----END EC PRIVATE KEY-----\n",
+  "admin_email": "mailto:admin@example.com"
+}
