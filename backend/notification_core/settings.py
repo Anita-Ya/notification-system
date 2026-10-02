@@ -139,3 +139,15 @@ VAPID_ADMIN_EMAIL = os.getenv('VAPID_ADMIN_EMAIL', 'mailto:admin@example.com')
 # OneSignal Configuration (Optional)
 ONESIGNAL_APP_ID = os.getenv('ONESIGNAL_APP_ID', '')
 ONESIGNAL_REST_API_KEY = os.getenv('ONESIGNAL_REST_API_KEY', '')
+
+# Python 3.14+ compatibility patch for Django 4.2 BaseContext.__copy__
+try:
+    from django.template import context
+    def _patched_base_context_copy(self):
+        duplicate = self.__class__.__new__(self.__class__)
+        duplicate.dicts = self.dicts[:]
+        return duplicate
+    context.BaseContext.__copy__ = _patched_base_context_copy
+except Exception:
+    pass
+
