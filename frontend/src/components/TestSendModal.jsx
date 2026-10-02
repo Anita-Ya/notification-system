@@ -120,6 +120,19 @@ export default function TestSendModal({ isOpen, onClose, template, trigger, chan
         {/* Content - Scrollable */}
         <form id="test-send-form" onSubmit={handleSend} className="p-6 space-y-4 overflow-y-auto flex-1">
           
+          {/* Channel OFF Warning */}
+          {!template.is_enabled && (
+            <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs flex items-start space-x-2.5">
+              <AlertTriangle className="w-4 h-4 flex-shrink-0 text-amber-400 mt-0.5" />
+              <div>
+                <span className="font-semibold text-amber-200">Channel is currently toggled OFF in the Matrix</span>
+                <p className="text-[11px] text-amber-300/80 mt-0.5 leading-relaxed">
+                  Notifications for {channelMeta.name} are disabled. To send messages or test notifications, please switch the toggle <strong>ON</strong> in the Admin Notification Matrix table.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Template Info Card */}
           <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800/80 text-xs space-y-1">
             <div className="font-semibold text-slate-300">Template to Send:</div>
@@ -181,20 +194,29 @@ export default function TestSendModal({ isOpen, onClose, template, trigger, chan
           {/* Result Card */}
           {result && (() => {
             const chRes = result.results?.[channelKey] || {};
-            const chStatus = chRes.status || (result.success ? 'sent' : 'failed');
+            const chStatus = chRes.status || result.status || (result.success ? 'sent' : 'failed');
+            const isSkipped = chStatus === 'skipped';
             const isSent = chStatus === 'sent';
-            const isFailed = chStatus === 'failed' || result.success === false;
+            const isFailed = (chStatus === 'failed' || result.success === false) && !isSkipped;
             const isSimulated = chStatus === 'simulated';
 
             return (
               <div className={`p-3.5 rounded-xl border mt-2 text-xs space-y-2 transition-all ${
-                isSent 
-                  ? 'bg-emerald-950/40 border-emerald-500/30 text-emerald-200' 
-                  : (isFailed 
-                      ? 'bg-rose-950/40 border-rose-500/30 text-rose-200' 
-                      : 'bg-indigo-950/40 border-indigo-500/30 text-indigo-200')
+                isSkipped
+                  ? 'bg-amber-950/40 border-amber-500/30 text-amber-200'
+                  : (isSent 
+                      ? 'bg-emerald-950/40 border-emerald-500/30 text-emerald-200' 
+                      : (isFailed 
+                          ? 'bg-rose-950/40 border-rose-500/30 text-rose-200' 
+                          : 'bg-indigo-950/40 border-indigo-500/30 text-indigo-200'))
               }`}>
                 <div className="flex items-center space-x-2 font-semibold">
+                  {isSkipped && (
+                    <>
+                      <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                      <span>Notification Skipped (Channel Toggle is OFF)</span>
+                    </>
+                  )}
                   {isSent && (
                     <>
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
@@ -221,10 +243,14 @@ export default function TestSendModal({ isOpen, onClose, template, trigger, chan
                   </div>
                 )}
 
-                {(chRes.error || result.error) && (
-                  <div className="text-[11px] text-rose-300 font-mono bg-rose-950/40 p-2 rounded border border-rose-800/40 max-h-24 overflow-y-auto">
-                    <div className="font-bold text-rose-200 mb-0.5">Provider Error:</div>
-                    <div className="whitespace-pre-wrap">{chRes.error || result.error}</div>
+                {(chRes.error || result.error || chRes.message) && (
+                  <div className={`text-[11px] font-mono p-2 rounded border max-h-24 overflow-y-auto ${
+                    isSkipped 
+                      ? 'bg-amber-950/40 text-amber-200 border-amber-800/40' 
+                      : 'bg-rose-950/40 text-rose-300 border-rose-800/40'
+                  }`}>
+                    <div className="font-bold mb-0.5">{isSkipped ? 'Status Detail:' : 'Provider Error:'}</div>
+                    <div className="whitespace-pre-wrap">{chRes.error || result.error || chRes.message}</div>
                   </div>
                 )}
 
@@ -253,13 +279,22 @@ export default function TestSendModal({ isOpen, onClose, template, trigger, chan
           <button
             type="submit"
             form="test-send-form"
-            disabled={loading}
-            className="px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold shadow-md shadow-indigo-600/30 transition flex items-center space-x-2 disabled:opacity-50"
+            disabled={loading || !template.is_enabled}
+            title={!template.is_enabled ? "Enable channel toggle in Matrix to send" : ""}
+            className={`px-5 py-2 rounded-lg text-white text-sm font-semibold transition flex items-center space-x-2 ${
+              !template.is_enabled
+                ? 'bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed'
+                : 'bg-indigo-600 hover:bg-indigo-500 shadow-md shadow-indigo-600/30'
+            } disabled:opacity-60`}
           >
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
                 <span>Dispatching...</span>
+              </>
+            ) : !template.is_enabled ? (
+              <>
+                <span>Channel is OFF</span>
               </>
             ) : (
               <>

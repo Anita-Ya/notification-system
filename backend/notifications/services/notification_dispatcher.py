@@ -81,12 +81,13 @@ def dispatch_trigger(trigger_slug: str, user=None, context: dict = None, channel
     for template in templates_query:
         channel = template.channel
         
-        # If disabled and not explicit test, log as skipped
-        if not template.is_enabled and not is_test:
+        # If disabled, log as skipped and do not dispatch
+        if not template.is_enabled:
+            recipient_for_log = test_recipients.get(channel) or (context.get('phone') if channel == 'whatsapp' else (context.get('email') if channel == 'email' else 'browser_subscribers')) or "N/A"
             NotificationLog.objects.create(
                 trigger=trigger,
                 channel=channel,
-                recipient="N/A",
+                recipient=recipient_for_log,
                 title=template.title,
                 body=template.body,
                 status="skipped",
@@ -190,6 +191,24 @@ def test_send_template(template_id: int, recipient: str = None, custom_vars: dic
     import os
     default_test_email = os.getenv('DEFAULT_TEST_EMAIL', 'yanitay1215@gmail.com').strip()
     default_test_phone = os.getenv('WHATSAPP_DEFAULT_TEST_PHONE', '+919001050074').strip()
+
+    if not template.is_enabled:
+        fallback_recipient = recipient or (default_test_phone if template.channel == 'whatsapp' else (default_test_email if template.channel == 'email' else 'browser_subscribers'))
+        NotificationLog.objects.create(
+            trigger=template.trigger,
+            channel=template.channel,
+            recipient=fallback_recipient,
+            title=template.title,
+            body=template.body,
+            status="skipped",
+            service_response={"reason": "Channel toggle is OFF"},
+            is_test=True
+        )
+        return {
+            "success": False,
+            "status": "skipped",
+            "error": f"{template.get_channel_display()} is currently turned OFF for '{template.trigger.name}'. Please turn the toggle switch ON in the Admin Matrix first to send."
+        }
 
     context = {
         'username': 'Test Candidate',
