@@ -11,7 +11,7 @@
 - 🚀 **Live Frontend Website (Vercel)**: [https://notification-system-olive.vercel.app](https://notification-system-olive.vercel.app)
 - ⚙️ **Live Backend API (Render)**: [https://notification-system-cdsf.onrender.com/api](https://notification-system-cdsf.onrender.com/api)
 - 📦 **GitHub Repository**: [https://github.com/Anita-Ya/notification-system](https://github.com/Anita-Ya/notification-system)
-- 🎥 **Walkthrough Video Demo**: *(Add your Loom / YouTube unlisted / Google Drive link here)*
+- 🎥 **Walkthrough Video Demo**: [Watch 3-Minute Loom Walkthrough](https://www.loom.com/share/ce070917206540bfa8f5adb47857f4b6)
 
 ### 🔐 How to Log In as Admin
 - **Django Site Admin URL**: [https://notification-system-cdsf.onrender.com/admin/](https://notification-system-cdsf.onrender.com/admin/)
