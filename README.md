@@ -94,8 +94,8 @@ CORS_ALLOW_ALL_ORIGINS=True
 
 # 1. WhatsApp Cloud API (Meta Sandbox)
 WHATSAPP_ACCESS_TOKEN=your_meta_temporary_access_token
-PHONE_NUMBER_ID=1330643683468044
-WHATSAPP_DEFAULT_TEST_PHONE=+919001050074
+PHONE_NUMBER_ID=your_meta_phone_number_id
+WHATSAPP_DEFAULT_TEST_PHONE=+1234567890
 
 # 2. Email Service (Resend / Postmark)
 RESEND_API_KEY=your_resend_api_key
@@ -141,7 +141,7 @@ npm run dev                  # Runs on http://localhost:5173/
 
 ## 🧪 Practice Tasks Verification Summary
 
-- **Task A (Login Trigger)**: Verified delivery across WhatsApp (+919001050074), Email (Resend), and Web Push (Desktop alert).
+- **Task A (Login Trigger)**: Verified delivery across WhatsApp (Meta Sandbox verified phone), Email (Resend), and Web Push (Desktop alert).
 - **Task B (Second Trigger - Logout)**: Tested with distinct copy across all three channels.
 - **Task C (Edit & Toggle)**: Cell text modification and channel ON/OFF toggle verified. When toggled OFF, audit logs accurately record status as `skipped`.
 - **Task D (Interview Q&A)**: 4 core questions (What is a trigger, what are the three channels, why create templates in admin panel, what is web push) available directly within the UI via the **"Task D Q&A"** button.
