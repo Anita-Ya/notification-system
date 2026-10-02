@@ -243,14 +243,24 @@ export default function TestSendModal({ isOpen, onClose, template, trigger, chan
                   </div>
                 )}
 
-                {(chRes.error || result.error || chRes.message) && (
-                  <div className={`text-[11px] font-mono p-2 rounded border max-h-24 overflow-y-auto ${
-                    isSkipped 
-                      ? 'bg-amber-950/40 text-amber-200 border-amber-800/40' 
-                      : 'bg-rose-950/40 text-rose-300 border-rose-800/40'
-                  }`}>
-                    <div className="font-bold mb-0.5">{isSkipped ? 'Status Detail:' : 'Provider Error:'}</div>
-                    <div className="whitespace-pre-wrap">{chRes.error || result.error || chRes.message}</div>
+                {isFailed && (chRes.error || result.error) && (
+                  <div className="text-[11px] font-mono p-2 rounded border max-h-24 overflow-y-auto bg-rose-950/40 text-rose-300 border-rose-800/40">
+                    <div className="font-bold mb-0.5 text-rose-200">Provider Error:</div>
+                    <div className="whitespace-pre-wrap">{chRes.error || result.error}</div>
+                  </div>
+                )}
+
+                {isSkipped && (chRes.message || result.error) && (
+                  <div className="text-[11px] font-mono p-2 rounded border max-h-24 overflow-y-auto bg-amber-950/40 text-amber-200 border-amber-800/40">
+                    <div className="font-bold mb-0.5 text-amber-300">Status Detail:</div>
+                    <div className="whitespace-pre-wrap">{chRes.message || result.error}</div>
+                  </div>
+                )}
+
+                {isSimulated && chRes.message && (
+                  <div className="text-[11px] font-mono p-2 rounded border max-h-24 overflow-y-auto bg-indigo-950/40 text-indigo-200 border-indigo-800/40">
+                    <div className="font-bold mb-0.5 text-indigo-300">Simulated Dispatched Message:</div>
+                    <div className="whitespace-pre-wrap">{chRes.message}</div>
                   </div>
                 )}
 
