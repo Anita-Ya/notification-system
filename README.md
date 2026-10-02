@@ -1,8 +1,20 @@
 # Omni-Channel Notification Management System
 
-> **A single-screen admin dashboard to configure, edit, toggle, and test-send notifications across WhatsApp, Email, and Web Push.**
-> Built with **Python + Django REST Framework** (Backend) and **React + Tailwind CSS** (Frontend).
-> Ready for deployment on **Render** (Backend) and **Vercel** (Frontend).
+> **A single-screen admin dashboard to configure, edit, toggle, and test-send notifications across WhatsApp, Email, and Web Push.**  
+> Built with **Python + Django REST Framework** (Backend) and **React + Tailwind CSS** (Frontend).  
+> Hosted live on **Render** (Backend) and **Vercel** (Frontend).
+
+---
+
+## 🌐 Live URLs & Submission Info
+
+- 🚀 **Live Frontend Website (Vercel)**: [https://notification-system-olive.vercel.app](https://notification-system-olive.vercel.app)
+- ⚙️ **Live Backend API (Render)**: [https://notification-system-cdsf.onrender.com/api](https://notification-system-cdsf.onrender.com/api)
+- 📦 **GitHub Repository**: [https://github.com/Anita-Ya/notification-system](https://github.com/Anita-Ya/notification-system)
+- 🔐 **Default Admin Credentials**:
+  - **Username**: `admin`
+  - **Password**: `admin123`
+- 🎥 **Walkthrough Video Demo**: *(Add your Loom / YouTube unlisted / Google Drive link here)*
 
 ---
 
